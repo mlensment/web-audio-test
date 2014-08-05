@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<script src='beatdetektor.js'></script>
+<body>
+
+<script>
+  // Create an <audio> element dynamically.
+  var beatDetektor  = new BeatDetektor();
+  var audio = new Audio();
+  audio.src = '120bpm.mp3';
+  audio.controls = true;
+  audio.autoplay = true;
+  document.body.appendChild(audio);
+
+  var context = new webkitAudioContext();
+  //var analyser = context.createAnalyser();
+
+  // Wait for window.onload to fire. See crbug.com/112368
+
+    // Our <audio> element will be the audio source.
+    source = context.createMediaElementSource(audio);
+    //source.connect(analyser);
+    //analyser.connect(context.destination);
+
+    var jsProcessor = context.createScriptProcessor(2048, 1, 1);
+    source.connect(jsProcessor);
+    jsProcessor.connect(context.destination)
+    source.connect(context.destination);
+
+    jsProcessor.onaudioprocess =  function(event){
+      // Get left channel input. No need for output arrays. They're hooked up
+      // directly to the destination, and we're not doing any processing.
+      var inputArrayL = event.inputBuffer.getChannelData(0);
+      // // for beatDetektor.js
+      beatDetektor.process(context.currentTime, inputArrayL);
+      // for basskick
+      //bassKick.process(beatDetektor);
+    };
+
+</script>
+
+</body>
+</html>
+
+

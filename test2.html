@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+  // Create an <audio> element dynamically.
+  var audio = new Audio();
+  audio.src = 'bla.mp3';
+  audio.controls = true;
+  audio.autoplay = true;
+  document.body.appendChild(audio);
+
+  var context = new webkitAudioContext();
+  var analyser = context.createAnalyser();
+
+  // Wait for window.onload to fire. See crbug.com/112368
+  window.addEventListener('load', function(e) {
+    // Our <audio> element will be the audio source.
+    source = context.createMediaElementSource(audio);
+    //source.connect(analyser);
+    //analyser.connect(context.destination);
+    source.connect(context.destination);
+
+    // ...call requestAnimationFrame() and render the analyser's output to canvas.
+  }, false);
+
+</script>
+
+</body>
+</html>
+
+

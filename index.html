@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<audio controls id="bla">
+  <source src="bla.ogg" type="audio/ogg">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+a=document.getElementById("bla");
+function getPlaySpeed()
+  {
+  alert(a.playbackRate);
+  }
+
+function setPlaySpeed(val)
+  {
+  a.playbackRate=val;
+  }
+</script>
+
+</body>
+</html>
